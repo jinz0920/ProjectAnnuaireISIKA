@@ -1,5 +1,7 @@
 package fr.isika.cda23.utilClass;
 
+import java.util.Objects;
+
 public class Stagiaire {
 	private String nom;
 	private String prenom;
@@ -16,6 +18,11 @@ public class Stagiaire {
 		this.formation = formation;
 		this.anneePromo = anneePromo;
 		this.doublon = null;
+	}
+
+	// Constructeur vide:
+	public Stagiaire() {
+		super();
 	}
 
 	public String getNom() {
@@ -65,6 +72,27 @@ public class Stagiaire {
 	public void setDoublon(Stagiaire doublon) {
 		this.doublon = doublon;
 	}
+
+	// rajout des hash et equal
+	@Override
+	public int hashCode() {
+		return Objects.hash(anneePromo, departement, formation, nom, prenom);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Stagiaire other = (Stagiaire) obj;
+		return Objects.equals(anneePromo, other.anneePromo) && Objects.equals(departement, other.departement)
+				&& Objects.equals(formation, other.formation) && Objects.equals(nom, other.nom)
+				&& Objects.equals(prenom, other.prenom);
+	}
+
 // méthode recursive pour ajouter un doublon
 	public void ajouterDoublon(Stagiaire stagiaire) {
 		if (this.doublon == null)
@@ -78,7 +106,5 @@ public class Stagiaire {
 		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + ", formation="
 				+ formation + ", anneePromo=" + anneePromo + ", doublon=" + doublon + "]";
 	}
-
-
 
 }
