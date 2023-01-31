@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import fr.isika.cda23.utilClass.ArbreStagiaire;
+import fr.isika.cda23.utilClass.Noeud;
 import fr.isika.cda23.utilClass.Stagiaire;
 
 public class Donnee {
@@ -46,19 +47,28 @@ public class Donnee {
 						list.get(i + 4));
 				listStagiaire.add(stagiaire);
 			}
-//		arbre.ajouterNoeud(listStagiaire.get(0));
 
 			for (Stagiaire i : listStagiaire) {
 				arbre.ajouterNoeud(i);
 			}
 //			arbre.ajouterNoeud(new Stagiaire("LACROIX", "bb", "cc", "dd", "ee"));
-			arbre.ajouterNoeud(new Stagiaire("LACROIX", "cc", "cc", "dd", "ee"));
+//			arbre.ajouterNoeud(new Stagiaire("LACROIX", "cc", "cc", "dd", "ee"));
 //			arbre.ajouterNoeud(new Stagiaire("AA", "cc", "cc", "dd", "ee"));
-			System.out.println(arbre.getRacine());
-//			arbre.afficherArbre();
-//			System.out.println(list.size());
-			System.out.println(listStagiaire);
-			System.out.println(listStagiaire.size());
+//			System.out.println(arbre.rechercheMulticritere(new Stagiaire("Lacroix","","","","")));
+		
+			arbre.modifier(new Stagiaire("LACROIX","Pascale","91","BOBI 5","2008"),"LACROIX","pascal","92","BOBI","2008");
+			arbre.afficherArbre();
+//			arbre.supprimer(new Stagiaire("POTIN","Thomas","","ATOD 21",""));
+//			System.out.println(arbre.toString());
+//			arbre.rechercheMulticritere(new Stagiaire("POTIN","","","",""));
+//			for(Stagiaire i:Noeud.list) {
+//				System.out.println(i);
+//			}
+//			arbre.rechercheMulticritere(new Stagiaire("lacroix","pascale","","",""));
+//			for(Stagiaire i:Noeud.list) {
+//				System.out.println(i);
+//			}
+
 			br.close();
 			fr.close();
 		} catch (IOException e) {

@@ -1,5 +1,6 @@
 package fr.isika.cda23.utilClass;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Stagiaire {
@@ -73,7 +74,12 @@ public class Stagiaire {
 		this.doublon = doublon;
 	}
 
-	// rajout des hash et equal
+	@Override
+	public String toString() {
+		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + ", formation="
+				+ formation + ", anneePromo=" + anneePromo + ", doublon=" + doublon + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(anneePromo, departement, formation, nom, prenom);
@@ -93,7 +99,7 @@ public class Stagiaire {
 				&& Objects.equals(prenom, other.prenom);
 	}
 
-// méthode recursive pour ajouter un doublon
+// 	méthode recursive pour ajouter un doublon qui est associé à l'arbre
 	public void ajouterDoublon(Stagiaire stagiaire) {
 		if (this.doublon == null)
 			this.doublon = stagiaire;
@@ -101,10 +107,75 @@ public class Stagiaire {
 			this.doublon.ajouterDoublon(stagiaire);
 	}
 
-	@Override
-	public String toString() {
-		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + ", formation="
-				+ formation + ", anneePromo=" + anneePromo + ", doublon=" + doublon + "]";
+// 	méthode recursive pour ajouter tous les stagiaires dans une list depuis
+// 	l'arbre;
+
+	public void addList(ArrayList<Stagiaire> list) {
+		if (this.doublon == null) {
+			list.add(this);
+		} else {
+			list.add(this);
+			this.doublon.addList(list);
+		}
 	}
 
+// 	méthode recursive pour ajouter tous les stagiaires qui contiennet le meme ou
+// 	une partie de leurs prenom
+//	y compris les doublons dans une list depuis l'arbre;
+	public void addListPrenom(ArrayList<Stagiaire> list, String prenom) {
+		String prenomSansAccent = Utility.removeAccents(this.getPrenom().toLowerCase().replaceAll(Utility.regExp, ""));
+		if (prenomSansAccent.contains(prenom)) {
+			list.add(this);
+		}
+		if (this.doublon != null) {
+			this.doublon.addListPrenom(list, prenom);
+		}
+	}
+
+// 	méthode recursive pour ajouter tous les stagiaires qui ont le meme
+// 	departement
+//	y compris les doublons dans une list depuis l'arbre;
+	public void addListDepartement(ArrayList<Stagiaire> list, String departement) {
+		if (this.getDepartement().equals(departement)) {
+			list.add(this);
+		}
+		if (this.doublon != null) {
+			this.doublon.addListDepartement(list, departement);
+		}
+	}
+
+// 	méthode recursive pour ajouter tous les stagiaires qui contiennet la meme ou
+// 	une partie de leurs formation
+//	y compris les doublons dans une list depuis l'arbre;
+	public void addListFormation(ArrayList<Stagiaire> list, String formation) {
+		if (this.getFormation().toLowerCase().replaceAll(" ", "").contains(formation)) {
+			list.add(this);
+		}
+		if (this.doublon != null) {
+			this.doublon.addListFormation(list, formation);
+		}
+	}
+
+// 	méthode recursive pour ajouter tous les stagiaires qui ont le meme
+// 	departement
+//	y compris les doublons dans une list depuis l'arbre;
+	public void addListAnneePromo(ArrayList<Stagiaire> list, String anneePromo) {
+		if (this.getAnneePromo().equals(anneePromo)) {
+			list.add(this);
+		}
+		if (this.doublon != null) {
+			this.doublon.addListAnneePromo(list, anneePromo);
+		}
+	}
+
+//  supprimer doublon
+	public void supprimerDoublon(Stagiaire stagiaire) {
+		if (this.getDoublon().getPrenom().compareTo(stagiaire.getPrenom()) == 0
+				&& this.getDoublon().getFormation().compareTo(stagiaire.getFormation()) == 0) {
+			this.setDoublon(this.doublon.getDoublon());
+		} else {
+			this.doublon.supprimerDoublon(stagiaire);
+		}
+
+	}
 }
